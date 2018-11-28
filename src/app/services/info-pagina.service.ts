@@ -8,18 +8,29 @@ import { InfoPagina } from '../interfaces/info-pagina.interface';
 export class InfoPaginaService {
   info: InfoPagina = {};
   cargada = false;
+  equipo: any[] =[];
 
   constructor( private http: HttpClient ) {
     
-    //console.log("Servicio de info Página listo");
+    this.cargarInfo();
+    this.cargarEquipo();
 
+   }
+
+   private cargarInfo(){
     //leer el archivo JSON
     this.http.get('assets/data/data-pagina.json')
     .subscribe( (resp: InfoPagina) => {
       this.cargada = true;
       this.info = resp;
-      console.log(resp);
     });
+   }
+   private  cargarEquipo(){
 
+     this.http.get('https://angular-html-aee6c.firebaseio.com/equipo.json')
+     .subscribe( ( resp: any[] )  => {
+       this.equipo = resp;
+       console.log(resp);
+     });
    }
 }
